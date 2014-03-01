@@ -47,7 +47,7 @@ public class NewspaperAdsStore {
         adsToNewspaperMap.get(adId).add(newspaperId);
     }
 
-    public Set<String> getAllAddsForNewspaper(String newspaperId) {
+    public Set<String> getAllAdsForNewspaper(String newspaperId) {
         checkNewspaperExists(newspaperId);
         return ImmutableSet.copyOf(newspaperToAdsMap.get(newspaperId));
     }

@@ -79,13 +79,13 @@ public class NewspaperAdsStoreTests {
     
     @Test(expected=IllegalArgumentException.class)
     public void getAllAdsForNewspaperThatDoesntExistThrows() throws Exception {
-        target.getAllAddsForNewspaper(NEWSPAPER_ID_1);
+        target.getAllAdsForNewspaper(NEWSPAPER_ID_1);
     }
     
     @Test
     public void getAllAdsForNewspaperWithNoAdsIsEmpty() {
         target.createNewspaper(NEWSPAPER_ID_1);
-        assertThat(target.getAllAddsForNewspaper(NEWSPAPER_ID_1).isEmpty(), is(true));
+        assertThat(target.getAllAdsForNewspaper(NEWSPAPER_ID_1).isEmpty(), is(true));
     }
     
     @Test(expected=IllegalArgumentException.class)
@@ -101,22 +101,32 @@ public class NewspaperAdsStoreTests {
     }
     
     @Test
-    public void canInsert1AdIntoNewspaper() throws Exception {
+    public void canInsert1Ad() throws Exception {
         target.createNewspaper(NEWSPAPER_ID_1);
         target.createAd(AD_ID_1);
         target.insertAd(NEWSPAPER_ID_1, AD_ID_1);
-        target.getAllAddsForNewspaper(NEWSPAPER_ID_1);
-        assertThat(target.getAllAddsForNewspaper(NEWSPAPER_ID_1), hasItem(AD_ID_1));
+        target.getAllAdsForNewspaper(NEWSPAPER_ID_1);
+        assertThat(target.getAllAdsForNewspaper(NEWSPAPER_ID_1), hasItem(AD_ID_1));
     }
     
     @Test
-    public void canInsertSeveralAdsIntoNewspaper() throws Exception {
+    public void cantInsertSameAdMoreThanOnce() throws Exception {
+        target.createNewspaper(NEWSPAPER_ID_1);
+        target.createAd(AD_ID_1);
+        target.insertAd(NEWSPAPER_ID_1, AD_ID_1);
+        target.insertAd(NEWSPAPER_ID_1, AD_ID_1);
+        target.getAllAdsForNewspaper(NEWSPAPER_ID_1);
+        assertThat(target.getAllAdsForNewspaper(NEWSPAPER_ID_1), hasItem(AD_ID_1));
+    }
+    
+    @Test
+    public void canInsertSeveralAds() throws Exception {
         target.createNewspaper(NEWSPAPER_ID_1);
         target.createAd(AD_ID_1);
         target.createAd(AD_ID_2);
         target.insertAd(NEWSPAPER_ID_1, AD_ID_1);
         target.insertAd(NEWSPAPER_ID_1, AD_ID_2);
-        Iterable<String> matchingAds = target.getAllAddsForNewspaper(NEWSPAPER_ID_1);
+        Iterable<String> matchingAds = target.getAllAdsForNewspaper(NEWSPAPER_ID_1);
         assertThat(matchingAds, hasItem(AD_ID_1));
         assertThat(matchingAds, hasItem(AD_ID_2));
     }
